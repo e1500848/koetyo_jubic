@@ -6,6 +6,7 @@ import { createStore } from 'redux'
 
 import reducer from '../reducer'
 import { HelloWorld } from './'
+import { KoeTyo } from './'
 
 type Props = {}
 
@@ -28,7 +29,8 @@ class App extends React.PureComponent<Props> {
   render () {
     return (
       <Provider store={store}>
-        <HelloWorld />
+    {/*<HelloWorld />*/}
+        <KoeTyo />
       </Provider>
     )
   }

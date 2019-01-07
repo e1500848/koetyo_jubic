@@ -54,11 +54,11 @@ module.exports = {
       template: resolve('./src/index.html'),
       chunks: ['js']
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()/*,
     new CopyWebpackPlugin([{
       from: path.resolve(__dirname, 'public'),
       to: path.resolve(__dirname, 'build')
-    }])
+    }])*/
   ],
   devServer: {
     proxy: {

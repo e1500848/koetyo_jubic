@@ -19,6 +19,7 @@ class KoeTyo extends React.PureComponent<Props> {
   constructor() {
     super();
     this.state = {
+      startDate: new Date(),
       showForm: false,
       chartData:{},
       data:[
@@ -40,7 +41,7 @@ class KoeTyo extends React.PureComponent<Props> {
         }
       ]
     }
-
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
@@ -104,13 +105,30 @@ class KoeTyo extends React.PureComponent<Props> {
     this.addForm.reset();
   }
 
+  addData2(e){
+    e.preventDefault();
+
+    const newValue = this.newValue2.value;
+    const newDate = this.newDate2.value;
+
+    this.setState({
+      data: [...this.state.data, {"value":newValue,"date":newDate}]
+    }, function(){
+      this.getChartData();
+    });
+
+    this.addForm2.reset();
+  }
+
   newForm(){
     console.log('clicked');
     return (
-      <form onSubmit={(e) => {this.addData(e)}} ref={input => this.addForm = input}>
-        <input required type="number" id="newValue" ref={input => this.newValue = input} />
-        <input required type="text" id="newDate" ref={input => this.newDate = input} />
+      <form onSubmit={(e) => {this.addData2(e)}} ref={input => this.addForm2 = input}>
+        <input required type="number" id="newValue" ref={input => this.newValue2 = input} />
+        <input required type="date" id="newDate" ref={input => this.newDate2 = input} />
+
         <button type="submit">Add</button>
+        <button type="button" onClick={this.deleteForm.bind(this)}>Remove form</button>
       </form>
     );
   }
@@ -121,18 +139,32 @@ class KoeTyo extends React.PureComponent<Props> {
     });
   }
 
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
+  deleteForm(){
+    this.setState({
+      showForm: false
+    });
+  }
+
   render() {
   		return (
         <React.Fragment>
-          <Bar data={this.state.chartData} width={10} height={250} options={{maintainAspectRatio: false}}/>
+          <Bar data={this.state.chartData} width={10} height={2} options={{maintainAspectRatio: true}}/>
 
           <form onSubmit={(e) => {this.addData(e)}} ref={input => this.addForm = input}>
             <input required type="number" id="newValue" ref={input => this.newValue = input} />
-            <input required type="text" id="newDate" ref={input => this.newDate = input} />
+            <input required type="date" id="newDate" ref={input => this.newDate = input} />
             <button type="submit">Add</button>
+
           </form>
-          <button onClick={this._onButtonClick.bind(this)}>new form</button>
           {this.state.showForm ? this.newForm() : null}
+          <button onClick={this._onButtonClick.bind(this)}>new form</button>
+
         </React.Fragment>
   		);
   	}
